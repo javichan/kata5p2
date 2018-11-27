@@ -4,23 +4,23 @@ package kata4.main;
 import kata4.model.Mail;
 import kata4.view.HistogramDisplay;
 import kata4.view.MailHistogramBuilder;
-import kata4.view.MailListReader;
+import kata4.view.MailListReaderBD;
  public class Kata4 {
 	
 	public static void main(String[] args) {
 		
-		Kata4 kata = new Kata4("email.txt");
+		Kata4 kata = new Kata4("KATA5.db");
 		
 		kata.execute();
  	}
 	
-	private final String filename;
+	private final String database;
 	private List<Mail> mails;
 	private Histogram<String> histogram;
 	private HistogramDisplay display;
- 	public Kata4(final String filename) {
-		this.filename = filename;
-	}
+	public Kata4(final String database) {
+		this.database = database;
+        }        
 	
 	private void execute() {
 		
@@ -33,7 +33,7 @@ import kata4.view.MailListReader;
 	}
 	
 	private void input() {
-		mails = MailListReader.read(filename);
+		mails = MailListReaderBD.read(database);
 	}
 	
 	private void process() {
