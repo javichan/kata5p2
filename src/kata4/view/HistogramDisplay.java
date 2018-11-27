@@ -1,62 +1,50 @@
 package kata4.view;
-
-import javax.swing.JPanel;
-import org.jfree.ui.ApplicationFrame;
+ import java.awt.Dimension;
+ import javax.swing.JPanel;
+ import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
-import java.awt.Dimension;
-import kata4.model.Histogram;
-import org.jfree.chart.ChartFactory;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.data.category.DefaultCategoryDataset;
-
-public class HistogramDisplay extends ApplicationFrame{
-    
-    private Histogram<String> histogram = new Histogram<>();
-    
-
-    public HistogramDisplay(Histogram<String> histogram) {
-        super("HISTOGRAMA");
-        this.histogram = histogram;
-        setContentPane(createPanel());
-        pack();
-    }
-    
-    public void execute(){
-        setVisible(true);
-    }
-
-    private JPanel createPanel() {
-        ChartPanel chartPanel = new ChartPanel(createChart(createDataset()));
-        chartPanel.setPreferredSize(new Dimension(500,400));
-        return chartPanel;
-    }
-    
-    private JFreeChart createChart(DefaultCategoryDataset dataSet){
-        JFreeChart chart = ChartFactory.createBarChart(
-            "Histograma JFreeChart",
-            "Dominios email",
-            "NÂº de emails",
-            dataSet,
-            PlotOrientation.VERTICAL,
-            false,
-            false,
-            rootPaneCheckingEnabled
-            );
-        return chart;
-    
-    }
-    
-    private DefaultCategoryDataset createDataset(){
-        DefaultCategoryDataset dataSet = new DefaultCategoryDataset();
-        histogram.keySet().forEach((key) -> {
-            dataSet.addValue(histogram.get(key), "", key);
-        });
-        return dataSet;
-        
-    }
-    
-    
-    
-    
+import org.jfree.ui.ApplicationFrame;
+ import kata4.model.Histogram;
+ public class HistogramDisplay extends ApplicationFrame {
+ 	private static final long serialVersionUID = -7765227026124211524L;
+ 	private final Histogram<String> histogram;
+	
+	public HistogramDisplay(final Histogram<String> histogram) {
+		super("Histograma");
+		this.histogram = histogram;
+	}
+	
+	private JPanel createPanel() {
+		JPanel panel = new ChartPanel(createChart(createDataSet()));
+		panel.setPreferredSize(new Dimension(500, 400));
+		return panel;
+	}
+	
+	private JFreeChart createChart(DefaultCategoryDataset dataset) {
+		return ChartFactory.createBarChart3D("Frecuencias",
+				"Dominios email", "Nº de emails", dataset,
+				PlotOrientation.VERTICAL, false, false, false);
+	}
+	
+	private DefaultCategoryDataset createDataSet() {
+		DefaultCategoryDataset dataset = new DefaultCategoryDataset();
+		histogram.keySet().forEach(k -> {
+			dataset.addValue(histogram.get(k), "", k);
+		});
+		return dataset;
+	}
+ 	public void execute() {
+		
+		setContentPane(createPanel());
+		
+		pack();
+		
+		setLocationRelativeTo(null);
+		
+		setVisible(true);
+ 	}
+	
 }
